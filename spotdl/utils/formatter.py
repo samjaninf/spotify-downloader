@@ -112,6 +112,9 @@ def sanitize_string(string: str) -> str:
     # this is windows specific (disallowed chars)
     output = "".join(char for char in output if char not in "/?\\*|<>")
 
+    # clean up double spaces caused by the removal of these chars
+    output = output.replace("  ", " ")
+
     # double quotes (") and semi-colons (:) are also disallowed characters but we would
     # like to retain their equivalents, so they aren't removed in the prior loop
     output = output.replace('"', "'").replace(":", "-")
