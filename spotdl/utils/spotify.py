@@ -120,7 +120,6 @@ if USEOFFICIALAPI:
             # Return instance
             return self._instance
 
-
     class SpotifyClient(Spotify, metaclass=Singleton):
         """
         This is the Spotify client meant to be used in the app.
@@ -191,7 +190,6 @@ if USEOFFICIALAPI:
 
             return response
 
-
     def save_spotify_cache(cache: Dict[str, Optional[Dict]]):
         """
         Saves the Spotify cache to a file.
@@ -215,10 +213,16 @@ if USEOFFICIALAPI:
             json.dump(cache, cache_file)
 
 else:
-    from SpotipyFree import Spotify
-    SpotifyClient = Spotify
+    # override the SpotifyClient with the non-official one
+    from SpotipyFree import Spotify as SpotifyClient           # type: ignore
 
-    def save_spotify_cache(*args, **kwargs):
+    def save_spotify_cache(cache: Dict[str, Optional[Dict]]):
+        """
+        Does nothing due to SpotipyFree not needing any caching.
+
+        ### Arguments
+        - cache: The cache to save.
+        """
         return
 
 __all__ = [
@@ -234,5 +238,3 @@ class SpotifyError(Exception):
     """
     Base class for all exceptions related to SpotifyClient.
     """
-
-
