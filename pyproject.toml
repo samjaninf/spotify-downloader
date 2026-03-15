@@ -1,6 +1,6 @@
 [project]
 name = "spotdl"
-version = "4.4.3"
+version = "4.4.4"
 requires-python = ">=3.10,<3.14"
 
 description = "Download your Spotify playlists and songs along with album art and metadata"
@@ -32,6 +32,7 @@ classifiers = [
 ]
 dependencies = [
     "spotipy>=2.24.0,<3",
+    "spotipyFree>=1.0.2",
     "ytmusicapi>=1.11.1,<2",
     "pytube>=15.0.0,<16",
     "yt-dlp>=2025.09.26,<2027",
