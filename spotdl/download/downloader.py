@@ -677,10 +677,6 @@ class Downloader:
 
             # Create the output directory if it doesn't exist
             output_file.parent.mkdir(parents=True, exist_ok=True)
-            # if song.download_url is None:
-            #     download_url = self.search(song)
-            # else:
-            #     download_url = song.download_url
 
             # Initialize audio downloader
             audio_downloader: Union[AudioProvider, Piped]
@@ -713,7 +709,7 @@ class Downloader:
             if song.download_url is None:
                 candidate_urls = self.search_all(song)
             else:
-                candidate_urls = [self.download_url]
+                candidate_urls = [song.download_url]
 
             last_error: Optional[Exception] = None
             for candidate_url in candidate_urls:
