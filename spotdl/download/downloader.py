@@ -496,7 +496,12 @@ class Downloader:
                 ]
             )
         ):
-            song = reinit_song(song)
+            try:
+                song = reinit_song(song)
+            except Exception as e:
+                logger.error("Error occurred while reinitializing song: %s", e)
+                self.errors.append(f"Error occurred while reinitializing song: {e}")
+                return song, None
 
         # Create the output file path
         output_file = create_file_name(
