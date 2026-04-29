@@ -4,11 +4,11 @@ Web module for the console.
 
 import asyncio
 import logging
-import os
 import shutil
 import signal
 import sys
 import webbrowser
+from pathlib import Path
 
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +17,6 @@ from uvicorn import Config, Server
 from spotdl._version import __version__
 from spotdl.types.options import DownloaderOptions, WebOptions
 from spotdl.utils.config import get_spotdl_path, get_web_ui_path
-from spotdl.utils.github import download_github_dir
 from spotdl.utils.logging import NAME_TO_LEVEL
 from spotdl.utils.web import (
     ALLOWED_ORIGINS,
