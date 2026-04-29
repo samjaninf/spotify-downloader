@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div data-signals="{search_term: '{{ search_term }}'}">
+<div data-signals='{"search_term": {{ search_term|tojson }}}'>
     <div class="min-h-screen">
         <span id="search-list" class="hero-content">
             <button class="btn btn-sm btn-ghost" data-on-load="@get('/client/search')">
