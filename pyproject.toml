@@ -8,14 +8,11 @@ authors = [{ name = "spotDL Team", email = "spotdladmins@googlegroups.com" }]
 readme = "README.md"
 license = "MIT"
 
-maintainers = [{ name = "Silverarmor", email = "spotdladmins@googlegroups.com" }]
-
-keywords = [
-    "spotify",
-    "downloader",
-    "spotdl",
-    "music",
+maintainers = [
+    { name = "Silverarmor", email = "spotdladmins@googlegroups.com" },
 ]
+
+keywords = ["spotify", "downloader", "spotdl", "music"]
 classifiers = [
     "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: MIT License",
@@ -27,6 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Multimedia",
     "Topic :: Multimedia :: Sound/Audio",
     "Topic :: Utilities",
@@ -36,7 +34,7 @@ dependencies = [
     "spotipyFree>=1.1.0",
     "ytmusicapi>=1.11.1,<2",
     "pytube>=15.0.0,<16",
-    "yt-dlp>=2026.03.13,<2027",
+    "yt-dlp>=2026.03.17,<2027",
     "mutagen>=1.47.0,<2",
     "rich>=13.9.4,<14",
     "beautifulsoup4>=4.12.3,<5",
@@ -51,6 +49,9 @@ dependencies = [
     "syncedlyrics>=1.0.1,<2",
     "soundcloud-v2>=1.6.0,<2",
     "websockets~=14.1",
+    "datastar-py>=0.6.3",
+    "jinja2>=3.1.5",
+    "python-multipart>=0.0.20",
 ]
 
 [project.urls]
@@ -110,6 +111,4 @@ fail-under = 9
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-markers = [
-    "vcr",
-]
+markers = ["vcr"]
