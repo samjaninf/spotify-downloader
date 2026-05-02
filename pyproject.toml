@@ -32,7 +32,7 @@ dependencies = [
     "spotipy>=2.24.0,<3",
     "ytmusicapi>=1.11.5,<2",
     "pytube>=15.0.0,<16",
-    "yt-dlp>=2026.03.17,<2027",
+    "yt-dlp[default]>=2026.03.17,<2027",
     "mutagen>=1.47.0,<2",
     "rich>=13.9.4,<14",
     "beautifulsoup4>=4.12.3,<5",
@@ -95,6 +95,9 @@ dev = [
     "types-pyyaml>=6.0.12.20250809",
     "types-python-dateutil>=2.9.0.20250809",
 ]
+
+[tool.uv]
+environments = ["platform_python_implementation == 'CPython'"]
 
 [build-system]
 requires = ["hatchling"]
