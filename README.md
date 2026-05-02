@@ -85,6 +85,17 @@ follow these instructions
 - OSX - `brew install ffmpeg`
 - Linux - `sudo apt install ffmpeg` or use your distro's package manager
 
+### Installing Deno
+
+Deno is optional, but recommended for most users. Some YouTube videos, including videos marked as
+"made for kids", require Deno when spotDL downloads them through yt-dlp.
+
+If using Deno only for spotDL, you can install Deno to your spotDL installation directory:
+`spotdl --download-deno`
+
+If you want to install Deno system-wide instead, follow the
+[official Deno installation guide](https://docs.deno.com/runtime/getting_started/installation/).
+
 ## Usage
 
 Using SpotDL without options:
