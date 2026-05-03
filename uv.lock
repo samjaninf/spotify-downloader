@@ -1,6 +1,6 @@
 version = 1
 revision = 3
-requires-python = ">=3.10, <3.14"
+requires-python = ">=3.10, <3.15"
 resolution-markers = [
     "python_full_version >= '3.12' and platform_python_implementation == 'PyPy'",
     "python_full_version >= '3.12' and platform_python_implementation != 'PyPy'",
@@ -282,6 +282,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/55/a0/7ca79796e799a3e782045d29bf052b5cde7439a2bbb17f15ff44f7aacc63/dacite-1.9.2.tar.gz", hash = "sha256:6ccc3b299727c7aa17582f0021f6ae14d5de47c7227932c47fec4cdfefd26f09", size = 22420, upload-time = "2025-02-05T09:27:29.757Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/94/35/386550fd60316d1e37eccdda609b074113298f23cef5bddb2049823fe666/dacite-1.9.2-py3-none-any.whl", hash = "sha256:053f7c3f5128ca2e9aceb66892b1a3c8936d02c686e707bee96e19deef4bc4a0", size = 16600, upload-time = "2025-02-05T09:27:24.345Z" },
+]
+
+[[package]]
+name = "datastar-py"
+version = "0.6.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1b/47/42b6d24b6170320ecf49e6cd331624804c7a9d655dd1c16866e12858e031/datastar_py-0.6.5.tar.gz", hash = "sha256:a8ec90077b455b0870586ae5f454ae3b0c2c392cf8cdf6853a03adb1c9158b54", size = 72274, upload-time = "2025-08-15T02:28:28.874Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7b/23/410f8598579c891a27d73f58767d39cecf356b280162f1d53d25e05dc3f1/datastar_py-0.6.5-py3-none-any.whl", hash = "sha256:db51e4e4a7f87f11f3bafa8153cdc54ee79df6da59964904217fdb67da55d324", size = 21338, upload-time = "2025-08-15T02:28:27.804Z" },
 ]
 
 [[package]]
@@ -1287,6 +1296,15 @@ wheels = [
 ]
 
 [[package]]
+name = "python-multipart"
+version = "0.0.20"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f3/87/f44d7c9f274c7ee665a29b885ec97089ec5dc034c7f3fafa03da9e39a09e/python_multipart-0.0.20.tar.gz", hash = "sha256:8dd0cab45b8e23064ae09147625994d090fa46f5b0d1e13af944c331a7fa9d13", size = 37158, upload-time = "2024-12-16T19:45:46.972Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/45/58/38b5afbc1a800eeea951b9285d3912613f2603bdf897a4ab0f4bd7f405fc/python_multipart-0.0.20-py3-none-any.whl", hash = "sha256:8a62d3a8335e06589fe01f2a3e178cdcc632f3fbe0d492ad9ee0ec35aab1f104", size = 24546, upload-time = "2024-12-16T19:45:44.423Z" },
+]
+
+[[package]]
 name = "python-slugify"
 version = "8.0.4"
 source = { registry = "https://pypi.org/simple" }
@@ -1613,15 +1631,18 @@ wheels = [
 
 [[package]]
 name = "spotdl"
-version = "4.4.2"
+version = "4.4.4"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },
+    { name = "datastar-py" },
     { name = "fastapi" },
+    { name = "jinja2" },
     { name = "mutagen" },
     { name = "platformdirs" },
     { name = "pydantic" },
     { name = "pykakasi" },
+    { name = "python-multipart" },
     { name = "python-slugify", extra = ["unidecode"] },
     { name = "pytube" },
     { name = "rapidfuzz" },
@@ -1675,11 +1696,14 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.12.3,<5" },
+    { name = "datastar-py", specifier = ">=0.6.3" },
     { name = "fastapi", specifier = ">=0.103.0,<0.104" },
+    { name = "jinja2", specifier = ">=3.1.5" },
     { name = "mutagen", specifier = ">=1.47.0,<2" },
     { name = "platformdirs", specifier = ">=4.3.6,<5" },
     { name = "pydantic", specifier = ">=2.9.2,<3" },
     { name = "pykakasi", specifier = ">=2.3.0,<3" },
+    { name = "python-multipart", specifier = ">=0.0.20" },
     { name = "python-slugify", extras = ["unidecode"], specifier = ">=8.0.4,<9" },
     { name = "pytube", specifier = ">=15.0.0,<16" },
     { name = "rapidfuzz", specifier = ">=3.10.1,<4" },
@@ -1690,8 +1714,8 @@ requires-dist = [
     { name = "syncedlyrics", specifier = ">=1.0.1,<2" },
     { name = "uvicorn", specifier = ">=0.23.2,<0.24" },
     { name = "websockets", specifier = "~=14.1" },
-    { name = "yt-dlp", specifier = ">=2025.8.27,<2026" },
-    { name = "ytmusicapi", specifier = ">=1.11.1,<2" },
+    { name = "yt-dlp", specifier = ">=2026.3.17,<2027" },
+    { name = "ytmusicapi", specifier = ">=1.11.5,<2" },
 ]
 
 [package.metadata.requires-dev]
@@ -2229,21 +2253,21 @@ wheels = [
 
 [[package]]
 name = "yt-dlp"
-version = "2025.8.27"
+version = "2026.3.17"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f4/d4/d9dd231b03f09fdfb5f0fe70f30de0b5f59454aa54fa6b2b2aea49404988/yt_dlp-2025.8.27.tar.gz", hash = "sha256:ed74768d2a93b29933ab14099da19497ef571637f7aa375140dd3d882b9c1854", size = 3038374, upload-time = "2025-08-28T00:03:41.418Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8b/34/7c6b4e3f89cb6416d2cd7ab6dab141a1df97ab0fb22d15816db2c92148c9/yt_dlp-2026.3.17.tar.gz", hash = "sha256:ba7aa31d533f1ffccfe70e421596d7ca8ff0bf1398dc6bb658b7d9dec057d2c9", size = 3119221, upload-time = "2026-03-17T23:43:00.244Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/9c/b69fc0c800f80b94ea2f8eff1d1f473fecee6aa337681d297ba7c7c5d3fd/yt_dlp-2025.8.27-py3-none-any.whl", hash = "sha256:0b8fd3bb7c54bc2e7ecb5cdac7d64c30e2503ea4d3dd9ae24d4f09e22aaa95f4", size = 3267059, upload-time = "2025-08-28T00:03:38.793Z" },
+    { url = "https://files.pythonhosted.org/packages/cd/13/5093bcb954878e50f7217fd2ab94282b53934022e4e4a03265582da83bf5/yt_dlp-2026.3.17-py3-none-any.whl", hash = "sha256:32992db94303a8a5d211a183f2174834fe7f8c29d83ed2e7a324eae97a8f26d8", size = 3315134, upload-time = "2026-03-17T23:42:57.863Z" },
 ]
 
 [[package]]
 name = "ytmusicapi"
-version = "1.11.1"
+version = "1.11.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/6a/48bd2ad11a0b2b1baa2874d6cbf6d58ed1abb442d8a0ed69985d1bd1324c/ytmusicapi-1.11.1.tar.gz", hash = "sha256:364a1b457fa28f85f7fdd9cd8fe16b2d34a98e93cbd1358e31a01fdd5a93a3b9", size = 317409, upload-time = "2025-08-30T19:33:31.264Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ac/4b/a44292f732903dc26a90236ad1cf284da974ed5491df388cf15713b38429/ytmusicapi-1.11.5.tar.gz", hash = "sha256:48f35901291c8af9934ec0aa9cd6b9fd1a19c543f843c39c9e8b396356b47801", size = 413046, upload-time = "2026-01-31T09:51:27.86Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/88/ac/a91784a8f9be3eff10959ccd2a680181941194d7ee7da2c7be10e9c32ab5/ytmusicapi-1.11.1-py3-none-any.whl", hash = "sha256:bcaf208fd18c9b5b8971bc4436b17af132a4296de98708049d7638fdba90f6c9", size = 100463, upload-time = "2025-08-30T19:33:29.543Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/a8/8feb17eaa8b2bf36b0617ba37f949a7036b6ece652672bd4517a54326f0e/ytmusicapi-1.11.5-py3-none-any.whl", hash = "sha256:f6b1e031408cce45bef207bfda449e3ecf548f7c4ff0c091c575d4a27eb21da6", size = 102313, upload-time = "2026-01-31T09:51:26.255Z" },
 ]
