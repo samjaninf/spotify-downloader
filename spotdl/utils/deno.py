@@ -23,7 +23,7 @@ __all__ = [
     "is_deno_installed",
     "get_deno_path",
     "get_local_deno",
-    "ensure_local_deno_on_path",
+    "get_local_deno_yt_dlp_options",
     "download_deno",
 ]
 
@@ -113,26 +113,19 @@ def get_local_deno() -> Optional[Path]:
     return None
 
 
-def ensure_local_deno_on_path() -> Optional[Path]:
+def get_local_deno_yt_dlp_options() -> Dict[str, Dict[str, Dict[str, str]]]:
     """
-    Add spotDL's local Deno directory to PATH when no global Deno is installed.
+    Get yt-dlp options that point to spotDL's local Deno binary.
 
     ### Returns
-    - Path to local Deno binary or None if no PATH update was needed.
+    - yt-dlp js_runtimes options or an empty dict if local Deno is unavailable.
     """
-
-    if shutil.which("deno") is not None:
-        return None
 
     local_deno = get_local_deno()
     if local_deno is None or not os.access(local_deno, os.X_OK):
-        return None
+        return {}
 
-    os.environ["PATH"] = (
-        str(local_deno.parent) + os.pathsep + os.environ.get("PATH", "")
-    )
-
-    return local_deno
+    return {"js_runtimes": {"deno": {"path": str(local_deno.absolute())}}}
 
 
 def download_deno() -> Path:

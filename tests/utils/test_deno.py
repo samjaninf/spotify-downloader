@@ -1,4 +1,3 @@
-import os
 import pathlib
 import platform
 import shutil
@@ -9,6 +8,7 @@ import pytest
 
 import spotdl.utils.deno
 from spotdl.utils.deno import *
+from spotdl.utils.formatter import args_to_ytdlp_options
 
 
 class MockResponse:
@@ -75,9 +75,9 @@ def test_get_local_deno(monkeypatch, tmp_path):
         assert str(local_deno).endswith("deno")
 
 
-def test_ensure_local_deno_on_path(monkeypatch, tmp_path):
+def test_get_local_deno_yt_dlp_options(monkeypatch, tmp_path):
     """
-    Test ensure_local_deno_on_path function.
+    Test get_local_deno_yt_dlp_options function.
     """
 
     local_deno = tmp_path / "deno"
@@ -85,19 +85,19 @@ def test_ensure_local_deno_on_path(monkeypatch, tmp_path):
     local_deno.chmod(0o755)
     monkeypatch.setattr(shutil, "which", lambda *_: None)
     monkeypatch.setattr(spotdl.utils.deno, "get_local_deno", lambda *_: local_deno)
-    monkeypatch.setenv("PATH", "old-path")
 
-    assert ensure_local_deno_on_path() == local_deno
-    assert os.environ["PATH"] == f"{tmp_path}{os.pathsep}old-path"
+    assert get_local_deno_yt_dlp_options() == {
+        "js_runtimes": {"deno": {"path": str(local_deno.absolute())}}
+    }
 
 
 @pytest.mark.skipif(
     platform.system() == "Windows",
     reason="Windows does not use POSIX executable bits.",
 )
-def test_ensure_local_deno_on_path_ignores_non_executable(monkeypatch, tmp_path):
+def test_get_local_deno_yt_dlp_options_ignores_non_executable(monkeypatch, tmp_path):
     """
-    Test ensure_local_deno_on_path does not add non-executable files to PATH.
+    Test get_local_deno_yt_dlp_options ignores non-executable files.
     """
 
     local_deno = tmp_path / "deno"
@@ -105,22 +105,89 @@ def test_ensure_local_deno_on_path_ignores_non_executable(monkeypatch, tmp_path)
     local_deno.chmod(0o644)
     monkeypatch.setattr(shutil, "which", lambda *_: None)
     monkeypatch.setattr(spotdl.utils.deno, "get_local_deno", lambda *_: local_deno)
-    monkeypatch.setenv("PATH", "old-path")
 
-    assert ensure_local_deno_on_path() is None
-    assert os.environ["PATH"] == "old-path"
+    assert get_local_deno_yt_dlp_options() == {}
 
 
-def test_ensure_local_deno_on_path_prefers_global(monkeypatch, tmp_path):
+def test_get_local_deno_yt_dlp_options_ignores_missing_local(monkeypatch):
     """
-    Test ensure_local_deno_on_path does not change PATH when Deno is globally installed.
+    Test get_local_deno_yt_dlp_options ignores missing local Deno.
     """
 
-    monkeypatch.setattr(shutil, "which", lambda *_: str(tmp_path / "deno"))
-    monkeypatch.setenv("PATH", "old-path")
+    monkeypatch.setattr(spotdl.utils.deno, "get_local_deno", lambda *_: None)
 
-    assert ensure_local_deno_on_path() is None
-    assert os.environ["PATH"] == "old-path"
+    assert get_local_deno_yt_dlp_options() == {}
+
+
+def test_user_js_runtime_overrides_local_deno(monkeypatch, tmp_path):
+    """
+    Test user-provided yt-dlp js runtime options override spotDL's local Deno.
+    """
+
+    local_deno = tmp_path / "deno"
+    user_deno = tmp_path / "user-deno"
+    local_deno.write_bytes(b"deno")
+    local_deno.chmod(0o755)
+    monkeypatch.setattr(spotdl.utils.deno, "get_local_deno", lambda *_: local_deno)
+
+    options = args_to_ytdlp_options(
+        ["--js-runtimes", f"deno:{user_deno}"],
+        get_local_deno_yt_dlp_options(),
+    )
+
+    assert options["js_runtimes"] == {"deno": {"path": str(user_deno)}}
+
+
+def test_audio_provider_uses_local_deno_yt_dlp_options(monkeypatch, tmp_path):
+    """
+    Test AudioProvider passes spotDL's local Deno options to yt-dlp.
+    """
+
+    from spotdl.providers.audio import base
+
+    captured_options = {}
+
+    def mock_youtube_dl(options):
+        captured_options.update(options)
+        return object()
+
+    monkeypatch.setattr(base, "YoutubeDL", mock_youtube_dl)
+    monkeypatch.setattr(base, "get_temp_path", lambda *_: tmp_path)
+    monkeypatch.setattr(
+        base,
+        "get_local_deno_yt_dlp_options",
+        lambda *_: {"js_runtimes": {"deno": {"path": "local-deno"}}},
+    )
+
+    base.AudioProvider()
+
+    assert captured_options["js_runtimes"] == {"deno": {"path": "local-deno"}}
+
+
+def test_piped_uses_local_deno_yt_dlp_options(monkeypatch, tmp_path):
+    """
+    Test Piped passes spotDL's local Deno options to yt-dlp.
+    """
+
+    from spotdl.providers.audio import piped
+
+    captured_options = {}
+
+    def mock_youtube_dl(options):
+        captured_options.update(options)
+        return object()
+
+    monkeypatch.setattr(piped, "YoutubeDL", mock_youtube_dl)
+    monkeypatch.setattr(piped, "get_temp_path", lambda *_: tmp_path)
+    monkeypatch.setattr(
+        piped,
+        "get_local_deno_yt_dlp_options",
+        lambda *_: {"js_runtimes": {"deno": {"path": "local-deno"}}},
+    )
+
+    piped.Piped()
+
+    assert captured_options["js_runtimes"] == {"deno": {"path": "local-deno"}}
 
 
 @pytest.mark.parametrize(

@@ -19,7 +19,6 @@ from spotdl.download.downloader import Downloader, DownloaderError
 from spotdl.utils.arguments import parse_arguments
 from spotdl.utils.config import create_settings
 from spotdl.utils.console import ACTIONS, generate_initial_config, is_executable
-from spotdl.utils.deno import ensure_local_deno_on_path
 from spotdl.utils.downloader import check_ytmusic_connection
 from spotdl.utils.ffmpeg import FFmpegError, download_ffmpeg, is_ffmpeg_installed
 from spotdl.utils.logging import init_logging
@@ -95,8 +94,6 @@ def entry_point():
             "FFmpeg is not installed. Please run `spotdl --download-ffmpeg` to install it, "
             "or `spotdl --ffmpeg /path/to/ffmpeg` to specify the path to ffmpeg."
         )
-
-    ensure_local_deno_on_path()
 
     # Check if we are not blocked by ytm
     if "youtube-music" in downloader_settings["audio_providers"]:
