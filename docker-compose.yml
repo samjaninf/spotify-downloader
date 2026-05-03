@@ -8,7 +8,10 @@ services:
         GID: "${GID:-1000}"
     image: "spotdl/spotify-downloader"
     volumes:
-      - ./downloads:/music
+      - spotdl_music:/music
     environment:
       - TZ=${TZ:-UTC}
     restart: unless-stopped
+
+volumes:
+  spotdl_music:
