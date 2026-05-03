@@ -46,21 +46,23 @@ def test_get_none_deno_path(monkeypatch):
     assert get_deno_path() is None
 
 
-def test_get_none_local_deno(monkeypatch):
+def test_get_none_local_deno(monkeypatch, tmp_path):
     """
     Test get_local_deno function.
     """
 
+    monkeypatch.setattr(spotdl.utils.deno, "get_spotdl_path", lambda: tmp_path)
     monkeypatch.setattr(pathlib.Path, "is_file", lambda *_: False)
 
     assert get_local_deno() is None
 
 
-def test_get_local_deno(monkeypatch):
+def test_get_local_deno(monkeypatch, tmp_path):
     """
     Test get_local_deno function.
     """
 
+    monkeypatch.setattr(spotdl.utils.deno, "get_spotdl_path", lambda: tmp_path)
     monkeypatch.setattr(pathlib.Path, "is_file", lambda *_: True)
 
     local_deno = get_local_deno()

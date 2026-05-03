@@ -154,14 +154,34 @@ def download_deno() -> Path:
     if deno_target is None:
         raise DenoError("Deno binary is not available for your system.")
 
-    latest_version = (
-        requests.get(DENO_RELEASE_LATEST_URL, allow_redirects=True, timeout=10)
-        .content.decode("utf-8")
-        .strip()
-    )
+    try:
+        latest_response = requests.get(
+            DENO_RELEASE_LATEST_URL, allow_redirects=True, timeout=10
+        )
+        latest_response.raise_for_status()
+    except requests.RequestException as error:
+        response = getattr(error, "response", None)
+        status_code = getattr(response, "status_code", "unknown")
+        raise DenoError(
+            f"Failed to fetch latest Deno version from {DENO_RELEASE_LATEST_URL} "
+            f"(status: {status_code})."
+        ) from error
+
+    latest_version = latest_response.content.decode("utf-8").strip()
     deno_url = DENO_RELEASE_URL.format(version=latest_version, target=deno_target)
 
-    deno_archive = requests.get(deno_url, allow_redirects=True, timeout=10).content
+    try:
+        archive_response = requests.get(deno_url, allow_redirects=True, timeout=10)
+        archive_response.raise_for_status()
+    except requests.RequestException as error:
+        response = getattr(error, "response", None)
+        status_code = getattr(response, "status_code", "unknown")
+        raise DenoError(
+            f"Failed to download Deno archive from {deno_url} "
+            f"(status: {status_code})."
+        ) from error
+
+    deno_archive = archive_response.content
     deno_filename = "deno" + (".exe" if os_name == "windows" else "")
     deno_path = Path(get_spotdl_path()) / deno_filename
 
