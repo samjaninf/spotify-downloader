@@ -66,8 +66,8 @@ Refer to our [Installation Guide](docs/installation.md) for more details.
     # Set your user ID and group ID (recommended)
     # This ensures downloaded files are owned by your user instead of root
     # If you don't set this, files will be owned by user 1000
-    export UID=$(id -u)
-    export GID=$(id -g)
+    export PUID=$(id -u)
+    export PGID=$(id -g)
 
     # Build and download
     docker compose build
