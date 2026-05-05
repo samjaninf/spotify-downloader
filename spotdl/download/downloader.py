@@ -45,8 +45,7 @@ from spotdl.utils.lrc import generate_lrc
 from spotdl.utils.m3u import gen_m3u_files
 from spotdl.utils.metadata import MetadataError, embed_metadata
 from spotdl.utils.search import gather_known_songs, reinit_song, songs_from_albums
-from spotdl.utils.matching import order_results
-from spotdl.utils.formatter import create_song_title, create_search_query
+from spotdl.utils.formatter import create_song_title
 
 __all__ = [
     "AUDIO_PROVIDERS",
@@ -733,15 +732,6 @@ class Downloader:
                     last_error = exc
 
             if download_info is None:
-                raise DownloaderError(
-                    f"yt-dlp failed to download: {song.name} - {song.artist}"
-                ) from last_error
-
-            temp_file = Path(
-                temp_folder / f"{download_info['id']}.{download_info['ext']}"
-            )
-
-            if download_info is None:
                 logger.debug(
                     "No download info found for %s, url: %s",
                     song.display_name,
@@ -751,6 +741,10 @@ class Downloader:
                 raise DownloaderError(
                     f"yt-dlp failed to get metadata for: {song.name} - {song.artist}"
                 )
+
+            temp_file = Path(
+                temp_folder / f"{download_info['id']}.{download_info['ext']}"
+            )
 
             display_progress_tracker.notify_download_complete()
 
