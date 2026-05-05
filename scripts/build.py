@@ -16,18 +16,8 @@ YTDLP_PATH = str(Path(yt_dlp.__file__).parent / "__pyinstaller")
 
 # Read modules from pyproject.toml
 modules = set(
-    module.split(" ")[0].split(">")[0].split("<")[0].split("~")[0].split("[")[0].split("!=")[0] for module in metadata("spotdl").get_all("Requires-Dist", [])
+    module.split(" ")[0] for module in metadata("spotdl").get_all("Requires-Dist", [])
 )
-
-SPOTAPI_DEPS = [
-    "spotapi",
-    "pyotp",
-    "readerwriterlock",
-    "base32hex",
-    "tls_client",
-    "cryptography",
-    "pymongo"
-]
 
 PyInstaller.__main__.run(
     [
@@ -42,7 +32,5 @@ PyInstaller.__main__.run(
         f"spotdl-{__version__}-{sys.platform}",
         "--console",
         *(f"--collect-all={module}" for module in modules),
-        *(f"--collect-all={pkg}" for pkg in SPOTAPI_DEPS),
-
     ]
 )
