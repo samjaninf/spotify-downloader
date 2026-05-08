@@ -24,7 +24,7 @@ WORKDIR /app
 COPY . .
 
 # Install spotdl requirements
-RUN uv sync
+RUN uv sync --no-dev
 
 # Create a volume for the output directory
 VOLUME /music
