@@ -408,6 +408,8 @@ class Downloader:
         """
         
         search_query = create_song_title(song.name, song.artists).lower()
+        primaries = []
+        secondaries = []
         for audio_provider in self.audio_providers:
             primary = audio_provider.search(song)
             search_results = audio_provider.get_results(search_query)
@@ -423,8 +425,10 @@ class Downloader:
             if primary in search_results:
                 search_results.remove(primary)
             if type(primary) == str:               #< sometimes returns Nonetype
-                search_results = [primary]+search_results
-            return search_results
+                primaries.append(primary)
+            secondaries.extend(search_results)
+
+        return primaries+secondaries
 
     def search_lyrics(self, song: Song) -> Optional[str]:
         """
