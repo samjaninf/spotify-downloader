@@ -260,6 +260,16 @@ def parse_spotify_options(parser: _ArgumentGroup):
         ),
     )
 
+    parser.add_argument(
+        "--use-official-api",
+        action="store_const",
+        const=True,
+        help=(
+            "Use the official Spotify Web API through Spotipy instead of "
+            "the default SpotipyFree client."
+        ),
+    )
+
 
 def parse_ffmpeg_options(parser: _ArgumentGroup):
     """

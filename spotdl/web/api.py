@@ -340,6 +340,7 @@ def get_options() -> Dict[str, Any]:
         "version",
         "config",
         "user_auth",
+        "use_official_api",
         "client_id",
         "client_secret",
         "auth_token",

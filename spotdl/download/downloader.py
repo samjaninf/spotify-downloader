@@ -20,12 +20,12 @@ from yt_dlp.postprocessor.sponsorblock import SponsorBlockPP
 from spotdl.download.progress_handler import ProgressHandler
 from spotdl.providers.audio import (
     AudioProvider,
+    AudioProviderError,
     BandCamp,
     Piped,
     SoundCloud,
     YouTube,
     YouTubeMusic,
-    AudioProviderError
 )
 from spotdl.providers.lyrics import AzLyrics, Genius, LyricsProvider, MusixMatch, Synced
 from spotdl.types.options import DownloaderOptionalOptions, DownloaderOptions
@@ -40,12 +40,11 @@ from spotdl.utils.config import (
     modernize_settings,
 )
 from spotdl.utils.ffmpeg import FFmpegError, convert, get_ffmpeg_path
-from spotdl.utils.formatter import create_file_name
+from spotdl.utils.formatter import create_file_name, create_song_title
 from spotdl.utils.lrc import generate_lrc
 from spotdl.utils.m3u import gen_m3u_files
 from spotdl.utils.metadata import MetadataError, embed_metadata
 from spotdl.utils.search import gather_known_songs, reinit_song, songs_from_albums
-from spotdl.utils.formatter import create_song_title
 
 __all__ = [
     "AUDIO_PROVIDERS",
@@ -408,27 +407,25 @@ class Downloader:
         """
 
         search_query = create_song_title(song.name, song.artists).lower()
-        primaries = []
-        secondaries = []
+        primaries: List[str] = []
+        secondaries: List[str] = []
         for audio_provider in self.audio_providers:
             primary = audio_provider.search(song)
             search_results = audio_provider.get_results(search_query)
             if self.settings["only_verified_results"]:
-                search_results = [
+                result_urls = [
                     result.url for result in search_results if result.verified
                 ]
             else:
-                search_results = [
-                    result.url for result in search_results
-                ]
+                result_urls = [result.url for result in search_results]
 
-            if primary in search_results:
-                search_results.remove(primary)
-            if type(primary) == str:               #< sometimes returns Nonetype
+            if primary in result_urls:
+                result_urls.remove(primary)
+            if type(primary) == str:  # < sometimes returns Nonetype
                 primaries.append(primary)
-            secondaries.extend(search_results)
+            secondaries.extend(result_urls)
 
-        return primaries+secondaries
+        return primaries + secondaries
 
     def search_lyrics(self, song: Song) -> Optional[str]:
         """
@@ -705,7 +702,6 @@ class Downloader:
                     yt_dlp_args=self.settings["yt_dlp_args"],
                 )
 
-
             # Add progress hook to the audio provider
             audio_downloader.audio_handler.add_progress_hook(
                 display_progress_tracker.yt_dlp_progress_hook
@@ -722,7 +718,9 @@ class Downloader:
 
             for candidate_url in candidate_urls:
                 try:
-                    logger.debug("Downloading %s using %s", song.display_name, candidate_url)
+                    logger.debug(
+                        "Downloading %s using %s", song.display_name, candidate_url
+                    )
                     download_info = audio_downloader.get_download_metadata(
                         candidate_url, download=True
                     )
