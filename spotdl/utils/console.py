@@ -124,11 +124,11 @@ def download_deno():
     """
 
     if get_local_deno() is not None or is_deno_installed():
-        overwrite_deno = input(
-            "Deno is already installed. Do you want to overwrite it? (y/N): "
+        download_deno_anyway = input(
+            "Deno is already installed. Do you want to download it anyway? (y/N): "
         )
 
-        if overwrite_deno.lower() == "y":
+        if download_deno_anyway.lower() == "y":
             local_deno = deno_download()
 
             if local_deno.is_file():
