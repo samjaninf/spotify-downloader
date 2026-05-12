@@ -63,7 +63,7 @@ spotdl = "spotdl:console_entry_point"
 
 [dependency-groups]
 dev = [
-    "pytest>=8.3.3,<9",
+    "pytest>=8.3.3,<10",
     "pytest-mock>=3.14.0,<4",
     "pyfakefs>=5.7.1,<6",
     "pytest-cov>=6.0.0,<7",
