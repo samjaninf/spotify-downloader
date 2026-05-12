@@ -90,7 +90,7 @@ follow these instructions
 Deno is optional, but recommended for most users. Some YouTube videos, including videos marked as
 "made for kids", require Deno when spotDL downloads them through yt-dlp.
 
-If using Deno only for spotDL, you can install Deno to your spotDL installation directory:
+If using Deno only for spotDL, you can install Deno to your spotDL directory:
 `spotdl --download-deno`
 
 If you want to install Deno system-wide instead, follow the
