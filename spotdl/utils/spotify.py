@@ -13,10 +13,10 @@ import logging
 from typing import Any, Dict, Optional
 
 import requests
-from SpotipyFree import Spotify as FreeSpotify
 from spotipy import Spotify
 from spotipy.cache_handler import CacheFileHandler, MemoryCacheHandler
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from SpotipyFree import Spotify as FreeSpotify
 
 from spotdl.utils.config import get_cache_path, get_spotify_cache_path
 
