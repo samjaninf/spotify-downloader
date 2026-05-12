@@ -363,6 +363,7 @@ def get_options() -> Dict[str, Any]:
         "simple_tui",
         "headless",
         "download_ffmpeg",
+        "download_deno",
         "generate_config",
         "check_for_updates",
         "profile",

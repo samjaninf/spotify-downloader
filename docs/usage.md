@@ -524,6 +524,7 @@ Misc options:
 
 Other options:
   --download-ffmpeg     Download ffmpeg to spotdl directory.
+  --download-deno       Download Deno to spotdl directory.
   --generate-config     Generate a config file. This will overwrite current config if present.
   --check-for-updates   Check for new version.
   --profile             Run in profile mode. Useful for debugging.
