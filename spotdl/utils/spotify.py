@@ -27,6 +27,12 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
+OFFICIAL_API_ONLY_OPTIONS = {
+    "auth_token": "--auth-token",
+    "user_auth": "--user-auth",
+    "use_cache_file": "--use-cache-file",
+}
+
 
 class SpotifyError(Exception):
     """
@@ -229,6 +235,19 @@ class SpotifyClient:
         if use_official_api:
             cls._instance = _init_official_spotify_client(**kwargs)
         else:
+            official_only_options = [
+                option
+                for key, option in OFFICIAL_API_ONLY_OPTIONS.items()
+                if kwargs[key]
+            ]
+            if official_only_options:
+                logger.warning(
+                    "%s %s only supported by the official Spotify Web API. "
+                    "Add --use-official-api to use this functionality.",
+                    ", ".join(official_only_options),
+                    "is" if len(official_only_options) == 1 else "are",
+                )
+
             cls._instance = _init_free_spotify_client(**kwargs)
 
         cls._use_official_api = use_official_api

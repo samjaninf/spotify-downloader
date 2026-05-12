@@ -137,3 +137,33 @@ def test_init_uses_official_client_when_requested(monkeypatch):
         )
     ]
     assert SpotifyClient._use_official_api is True
+
+
+def test_init_warns_for_official_api_only_options(monkeypatch, caplog):
+    """
+    Test SpotifyClient warns when official API only options are used with SpotipyFree.
+    """
+
+    client = object()
+
+    def fake_free_client(**kwargs):
+        return client
+
+    monkeypatch.setattr(SpotifyClient, "_instance", None)
+    monkeypatch.setattr(SpotifyClient, "_use_official_api", False)
+    monkeypatch.setattr(spotify_module, "_init_free_spotify_client", fake_free_client)
+
+    result = SpotifyClient.init(
+        client_id="client_id",
+        client_secret="client_secret",
+        user_auth=True,
+        auth_token="auth_token",
+        use_cache_file=True,
+    )
+
+    assert result is client
+    assert (
+        "--auth-token, --user-auth, --use-cache-file are only supported by "
+        "the official Spotify Web API. Add --use-official-api to use this "
+        "functionality."
+    ) in caplog.text
