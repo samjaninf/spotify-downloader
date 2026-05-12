@@ -406,7 +406,7 @@ class Downloader:
         ### Returns
         - list of candidate URLs, best match first.
         """
-        
+
         search_query = create_song_title(song.name, song.artists).lower()
         primaries = []
         secondaries = []
@@ -421,7 +421,7 @@ class Downloader:
                 search_results = [
                     result.url for result in search_results
                 ]
-            
+
             if primary in search_results:
                 search_results.remove(primary)
             if type(primary) == str:               #< sometimes returns Nonetype
@@ -714,12 +714,12 @@ class Downloader:
             # Try the best URL first, then fall back to other candidates if yt-dlp fails
 
             download_info = None
+            candidate_url = None
             if song.download_url is None:
                 candidate_urls = self.search_all(song)
             else:
                 candidate_urls = [song.download_url]
 
-            last_error: Optional[Exception] = None
             for candidate_url in candidate_urls:
                 try:
                     logger.debug("Downloading %s using %s", song.display_name, candidate_url)
@@ -733,7 +733,6 @@ class Downloader:
                         candidate_url,
                         exc,
                     )
-                    last_error = exc
 
             if download_info is None:
                 logger.debug(
