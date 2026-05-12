@@ -56,6 +56,20 @@ If you require further help, ask in our [Discord Server](https://discord.gg/xCa2
 
 [![Discord Server](https://img.shields.io/discord/771628785447337985?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/xCa23pwJWY)
 
+### Installing Deno
+
+Deno is optional, but recommended for most users. Some YouTube videos, including videos marked as
+"made for kids", require Deno when spotDL downloads them through yt-dlp.
+
+If using Deno only for spotDL, you can install Deno to your spotDL directory:
+
+```shell
+spotdl --download-deno
+```
+
+If you want to install Deno system-wide instead, follow the
+[official Deno installation guide](https://docs.deno.com/runtime/getting_started/installation/).
+
 ## Using Prebuilt Executable
 
 ### Download the executable

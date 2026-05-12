@@ -12,6 +12,7 @@ from yt_dlp import YoutubeDL
 from spotdl.types.result import Result
 from spotdl.types.song import Song
 from spotdl.utils.config import get_temp_path
+from spotdl.utils.deno import get_local_deno_yt_dlp_options
 from spotdl.utils.formatter import (
     args_to_ytdlp_options,
     create_search_query,
@@ -111,6 +112,8 @@ class AudioProvider:
             "retries": 5,
             "extractor_args": {},
         }
+
+        yt_dlp_options.update(get_local_deno_yt_dlp_options())
 
         if yt_dlp_args:
             yt_dlp_options = args_to_ytdlp_options(
