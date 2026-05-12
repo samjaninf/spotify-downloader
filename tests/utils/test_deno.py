@@ -12,8 +12,14 @@ from spotdl.utils.formatter import args_to_ytdlp_options
 
 
 class MockResponse:
-    def __init__(self, content):
+    def __init__(self, content, status_code=200):
         self.content = content
+        self.status_code = status_code
+
+    def raise_for_status(self):
+        """
+        Match the subset of the requests.Response API used by download_deno.
+        """
 
 
 def make_deno_archive(filename="deno"):
