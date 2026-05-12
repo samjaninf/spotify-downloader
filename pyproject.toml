@@ -71,6 +71,7 @@ dev = [
     "mypy>=1.13.0,<2",
     "pylint>=3.3.1,<4",
     "black>=24.10.0,<27",
+    "pytokens>=0.4.1,<0.5",
     "mdformat-gfm>=0.3.5,<0.4",
     "types-orjson>=3.6.2,<4",
     "types-python-slugify>=8.0.2.20240310,<9",

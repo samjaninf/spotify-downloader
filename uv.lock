@@ -96,6 +96,7 @@ dependencies = [
     { name = "packaging", marker = "platform_python_implementation == 'CPython'" },
     { name = "pathspec", marker = "platform_python_implementation == 'CPython'" },
     { name = "platformdirs", marker = "platform_python_implementation == 'CPython'" },
+    { name = "pytokens", marker = "platform_python_implementation == 'CPython'" },
     { name = "tomli", marker = "python_full_version < '3.11' and platform_python_implementation == 'CPython'" },
     { name = "typing-extensions", marker = "python_full_version < '3.11' and platform_python_implementation == 'CPython'" },
 ]
@@ -1433,6 +1434,7 @@ dependencies = [
     { name = "iniconfig", marker = "platform_python_implementation == 'CPython'" },
     { name = "packaging", marker = "platform_python_implementation == 'CPython'" },
     { name = "pluggy", marker = "platform_python_implementation == 'CPython'" },
+    { name = "pygments", marker = "platform_python_implementation == 'CPython'" },
     { name = "tomli", marker = "python_full_version < '3.11' and platform_python_implementation == 'CPython'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7d/0d/549bd94f1a0a402dc8cf64563a117c0f3765662e2e668477624baeec44d5/pytest-9.0.3.tar.gz", hash = "sha256:b86ada508af81d19edeb213c681b1d48246c1a91d304c6c81a427674c17eb91c", size = 1572165, upload-time = "2026-04-07T17:16:18.027Z" }
@@ -1939,6 +1941,7 @@ dev = [
     { name = "pytest-mock", marker = "platform_python_implementation == 'CPython'" },
     { name = "pytest-recording", marker = "platform_python_implementation == 'CPython'" },
     { name = "pytest-subprocess", marker = "platform_python_implementation == 'CPython'" },
+    { name = "pytokens", marker = "platform_python_implementation == 'CPython'" },
     { name = "types-deprecated", marker = "platform_python_implementation == 'CPython'" },
     { name = "types-orjson", marker = "platform_python_implementation == 'CPython'" },
     { name = "types-python-dateutil", marker = "platform_python_implementation == 'CPython'" },
@@ -2000,6 +2003,7 @@ dev = [
     { name = "pytest-mock", specifier = ">=3.14.0,<4" },
     { name = "pytest-recording", specifier = ">=0.13.1,<0.14" },
     { name = "pytest-subprocess", specifier = ">=1.5.2,<2" },
+    { name = "pytokens", specifier = ">=0.4.1,<0.5" },
     { name = "types-deprecated", specifier = ">=1.2.15.20250304" },
     { name = "types-orjson", specifier = ">=3.6.2,<4" },
     { name = "types-python-dateutil", specifier = ">=2.9.0.20250809" },
