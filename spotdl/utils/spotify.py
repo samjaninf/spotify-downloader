@@ -13,6 +13,7 @@ import logging
 from typing import Any, Dict, Optional
 
 import requests
+from SpotipyFree import Spotify as FreeSpotify
 from spotipy import Spotify
 from spotipy.cache_handler import CacheFileHandler, MemoryCacheHandler
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
@@ -161,8 +162,6 @@ def _init_free_spotify_client(**kwargs) -> Any:
     Initialize the default SpotipyFree client.
     """
 
-    from SpotipyFree import Spotify as FreeSpotify  # type: ignore
-
     client = FreeSpotify.init(**kwargs)
     if client is None:
         client = FreeSpotify()
@@ -198,6 +197,14 @@ class SpotifyClient:
         """
 
         raise AttributeError(name)
+
+    @classmethod
+    def is_using_official_api(cls) -> bool:
+        """
+        Returns whether the active client uses the official Spotify Web API.
+        """
+
+        return cls._use_official_api
 
     @classmethod
     def init(
@@ -263,7 +270,7 @@ def save_spotify_cache(cache: Dict[str, Optional[Dict]]):
     - cache: The cache to save.
     """
 
-    if not SpotifyClient._use_official_api:
+    if not SpotifyClient.is_using_official_api():
         return
 
     cache_file_loc = get_spotify_cache_path()
