@@ -24,7 +24,7 @@ def test_create_m3u_file(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     playlist = Playlist.from_url(PLAYLIST)
     create_m3u_file("test.m3u", playlist.songs, "", "mp3")
-    assert tmpdir.join("test.m3u").isfile() is True
+    assert (tmp_path / "test.m3u").is_file() is True
 
 
 def test_gen_m3u_files(tmp_path, monkeypatch):
@@ -33,7 +33,7 @@ def test_gen_m3u_files(tmp_path, monkeypatch):
 
     gen_m3u_files(songs, "./{list}", "", "mp3")
 
-    assert tmp_path.join("something or other.m3u8").isfile()
+    assert (tmp_path / "something or other.m3u8").is_file()
 
 
 def _song(list_name):

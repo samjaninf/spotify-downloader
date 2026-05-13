@@ -49,6 +49,6 @@ def test_create_github_url():
 def test_download_github_dir(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     download_github_dir(WEB_APP_URL, False)
-    download_dir = tmp_path.listdir()[0]
-    assert download_dir.isdir() is True
-    assert download_dir.join("index.html").isfile() is True
+    download_dir = list(tmp_path.iterdir())[0]
+    assert download_dir.is_dir() is True
+    assert (download_dir / "index.html").is_file() is True
