@@ -40,7 +40,6 @@ class YouTube(AudioProvider):
         """
         search_opts: Dict[str, Any] = {
             **self.audio_handler.params,
-            "extract_flat": "in_playlist",
             "skip_download": True,
         }
 
