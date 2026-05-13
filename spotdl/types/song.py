@@ -98,6 +98,7 @@ class Song:
         # get album info
         album_id = raw_track_meta["album"]["id"]
         raw_album_meta: Dict[str, Any] = spotify_client.album(album_id)  # type: ignore
+
         # create song object
         return cls(
             name=raw_track_meta["name"],
