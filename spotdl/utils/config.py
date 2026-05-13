@@ -316,6 +316,7 @@ SPOTIFY_OPTIONS: SpotifyOptions = {
     "no_cache": False,
     "max_retries": 3,
     "use_cache_file": False,
+    "use_official_api": False,
 }
 
 DOWNLOADER_OPTIONS: DownloaderOptions = {

@@ -4,7 +4,7 @@ Module which contains the web client routes and functions.
 
 import asyncio
 import uuid
-from typing import Optional
+from typing import Any, Optional, cast
 
 # from datastar_py.sse import DatastarEvent
 from datastar_py.fastapi import ReadSignals
@@ -196,7 +196,7 @@ async def handle_get_client_settings(datastar_signals: ReadSignals):
     app_state.logger.info(f"[{signals.client_id}] Sending client settings...")
     yield SSE.patch_signals(
         {
-            "downloader_settings": client.downloader_settings,
+            "downloader_settings": cast(Any, client.downloader_settings),
         }
     )
 
@@ -235,7 +235,7 @@ async def handle_post_client_settings(datastar_signals: ReadSignals):
             """)
         yield SSE.patch_signals(
             {
-                "downloader_settings": client.downloader_settings,
+                "downloader_settings": cast(Any, client.downloader_settings),
             }
         )
     else:
@@ -374,7 +374,7 @@ async def handle_get_client_component_settings(datastar_signals: ReadSignals):
     # print(f"{spotify_client = }")
     yield SSE.patch_signals(
         {
-            "downloader_settings": client.downloader_settings,
+            "downloader_settings": cast(Any, client.downloader_settings),
             # "spotify_settings": {
             #     "client_id": spotify_client.credential_manager.client_id
             # },
