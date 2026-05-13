@@ -15,7 +15,7 @@ install Python & FFmpeg.
 
 - [Visual C++ 2019 redistributable](https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022)
   (on Windows)
-- Python 3.7 or above (added to PATH)
+- Python 3.10 - 3.14 (added to PATH)
 - FFmpeg 4.2 or above (added to PATH)
 
 ### Install Python to PATH
@@ -55,6 +55,20 @@ We recommend the above option, but if you want to install FFmpeg system-wide,
 If you require further help, ask in our [Discord Server](https://discord.gg/xCa23pwJWY)
 
 [![Discord Server](https://img.shields.io/discord/771628785447337985?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/xCa23pwJWY)
+
+### Installing Deno
+
+Deno is optional, but recommended for most users. Some YouTube videos, including videos marked as
+"made for kids", require Deno when spotDL downloads them through yt-dlp.
+
+If using Deno only for spotDL, you can install Deno to your spotDL directory:
+
+```shell
+spotdl --download-deno
+```
+
+If you want to install Deno system-wide instead, follow the
+[official Deno installation guide](https://docs.deno.com/runtime/getting_started/installation/).
 
 ## Using Prebuilt Executable
 
