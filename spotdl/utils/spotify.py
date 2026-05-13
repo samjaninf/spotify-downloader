@@ -239,22 +239,20 @@ class SpotifyClient:
             "cache_path": cache_path,
         }
 
+        official_only_options = [
+            option for key, option in OFFICIAL_API_ONLY_OPTIONS.items() if kwargs[key]
+        ]
+        if official_only_options and not use_official_api:
+            logger.info(
+                "Using the official Spotify Web API because %s %s requested.",
+                ", ".join(official_only_options),
+                "was" if len(official_only_options) == 1 else "were",
+            )
+            use_official_api = True
+
         if use_official_api:
             cls._instance = _init_official_spotify_client(**kwargs)
         else:
-            official_only_options = [
-                option
-                for key, option in OFFICIAL_API_ONLY_OPTIONS.items()
-                if kwargs[key]
-            ]
-            if official_only_options:
-                logger.warning(
-                    "%s %s only supported by the official Spotify Web API. "
-                    "Add --use-official-api to use this functionality.",
-                    ", ".join(official_only_options),
-                    "is" if len(official_only_options) == 1 else "are",
-                )
-
             cls._instance = _init_free_spotify_client(**kwargs)
 
         cls._use_official_api = use_official_api

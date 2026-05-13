@@ -58,10 +58,10 @@ class YouTube(AudioProvider):
                     url=f"https://www.youtube.com/watch?v={video_id}",
                     verified=False,
                     name=entry.get("title", ""),
-                    duration=entry.get("duration", 0),
-                    author=entry.get("uploader", ""),
+                    duration=entry.get("duration") or 0,
+                    author=entry.get("uploader") or "",
                     search_query=search_term,
-                    views=entry.get("view_count", 0),
+                    views=entry.get("view_count") or 0,
                     result_id=video_id,
                 )
             )
