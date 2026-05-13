@@ -410,7 +410,7 @@ class Downloader:
         primaries: List[str] = []
         secondaries: List[str] = []
         for audio_provider in self.audio_providers:
-            primary = audio_provider.search(song)
+            primary = audio_provider.search(song, self.settings["only_verified_results"])
             search_results = audio_provider.get_results(search_query)
             if self.settings["only_verified_results"]:
                 result_urls = [
@@ -419,13 +419,16 @@ class Downloader:
             else:
                 result_urls = [result.url for result in search_results]
 
-            if primary in result_urls:
+            if (primary in result_urls):
                 result_urls.remove(primary)
-            if type(primary) == str:  # < sometimes returns Nonetype
+            if (type(primary) == str):  # < sometimes returns Nonetype
                 primaries.append(primary)
             secondaries.extend(result_urls)
-
-        return primaries + secondaries
+        
+        result: List[str] = primaries + secondaries
+        if len(result) == 0:
+            raise LookupError(f"No results found for song: {song.display_name}")
+        return result
 
     def search_lyrics(self, song: Song) -> Optional[str]:
         """
