@@ -106,6 +106,9 @@ Docker documentation: <https://docs.docker.com/>
 - Download a song:
   `docker run --rm -v $(pwd):/music spotdl download https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b`
 
+  If you bind-mount a host directory like `$(pwd):/music`, that directory must be writable by the
+  container `UID`/`GID`.
+
 ### Docker Hub Image
 
 - Pull docker image from Docker hub: `docker pull spotdl/spotify-downloader`
@@ -124,9 +127,28 @@ docker create \
 
 ### Docker Compose
 
-- Create a container using Docker Compose: `docker-compose up --no-start`
-- Download a song using Docker compose:
-  `docker-compose run --rm spotdl download https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b`
+- Use Docker Compose if you want Docker to manage permissions for you.
+- Set your user and group IDs:
+
+```bash
+export PUID=$(id -u)
+export PGID=$(id -g)
+```
+
+- Build the image:
+  `docker compose build`
+- Download a song using Docker Compose:
+  `docker compose run --rm spotdl download https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b`
+
+Docker Compose stores downloads in the named volume `spotdl_music:/music`.
+
+- Export files from the volume:
+
+```bash
+docker compose up --no-start spotdl
+mkdir -p downloads
+docker compose cp spotdl:/music/. ./downloads/
+```
 
 ## Other Installation Methods
 

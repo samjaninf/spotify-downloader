@@ -2,7 +2,8 @@
 <!--- mdformat-toc start --slug=github --->
 
 <!---
-!!! IF EDITING THE README, ENSURE TO COPY THE WHOLE FILE TO index.md in `/docs/` AND REMOVE THE REFERENCES TO ReadTheDocs THERE.
+!!! IF EDITING THE README, MOST CHANGES SHOULD ALSO BE PROPAGATED TO index.md in `/docs/`.
+!!! ADJUST FORMATTING THERE AS NEEDED, AND REMOVE README-ONLY / ReadTheDocs REFERENCES.
 --->
 
 <div align="center">
@@ -60,31 +61,8 @@ Refer to our [Installation Guide](docs/installation.md) for more details.
     docker run --rm -v $(pwd):/music spotdl download [trackUrl]
     ```
 
-    If you bind-mount `$(pwd):/music`, that host directory must be writable by the container
-    `UID`/`GID`. If you want Docker to manage permissions for you, use the `docker compose`
-    named-volume flow below instead.
-
-  - Using docker-compose (recommended):
-
-    ```bash
-    # Set your user ID and group ID (recommended)
-    # This ensures downloaded files are owned by your user instead of root
-    # If you don't set this, files will be owned by user 1000
-    export PUID=$(id -u)
-    export PGID=$(id -g)
-
-    # Build and download
-    docker compose build
-    docker compose run --rm spotdl download [trackUrl]
-    ```
-
-    Docker Compose mounts `spotdl_music:/music` and stores downloads in that volume.
-    Export files:
-    ```bash
-    docker compose up --no-start spotdl
-    mkdir -p downloads
-    docker compose cp spotdl:/music/. ./downloads/
-    ```
+  - For Docker Compose and permission-managed Docker downloads, see
+    [the Docker section in `/docs/index.md`](docs/index.md#docker).
 
   - Build from source
 
