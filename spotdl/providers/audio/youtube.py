@@ -36,7 +36,7 @@ class YouTube(AudioProvider):
         - search_term: The search term to search for.
 
         ### Returns
-        - A list of YouTube results if found, None otherwise.
+        - A list of YouTube results, or an empty list if no results are found.
         """
         search_opts: Dict[str, Any] = {
             **self.audio_handler.params,
