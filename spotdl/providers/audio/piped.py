@@ -17,6 +17,7 @@ from spotdl.providers.audio.base import (
 )
 from spotdl.types.result import Result
 from spotdl.utils.config import GlobalConfig, get_temp_path
+from spotdl.utils.deno import get_local_deno_yt_dlp_options
 from spotdl.utils.formatter import args_to_ytdlp_options
 
 __all__ = ["Piped"]
@@ -80,9 +81,12 @@ class Piped(AudioProvider):
             "retries": 5,
         }
 
+        yt_dlp_options.update(get_local_deno_yt_dlp_options())
+
         if yt_dlp_args:
-            user_options = args_to_ytdlp_options(shlex.split(yt_dlp_args))
-            yt_dlp_options.update(user_options)
+            yt_dlp_options = args_to_ytdlp_options(
+                shlex.split(yt_dlp_args), yt_dlp_options
+            )
 
         self.audio_handler = YoutubeDL(yt_dlp_options)
         self.session = requests.Session()
