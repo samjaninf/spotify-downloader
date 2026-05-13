@@ -2,7 +2,8 @@
 <!--- mdformat-toc start --slug=github --->
 
 <!---
-!!! IF EDITING THE README, ENSURE TO COPY THE WHOLE FILE TO index.md in `/docs/` AND REMOVE THE REFERENCES TO ReadTheDocs THERE.
+!!! IF EDITING THE README, MOST CHANGES SHOULD ALSO BE PROPAGATED TO index.md in `/docs/`.
+!!! ADJUST FORMATTING THERE AS NEEDED, AND REMOVE README-ONLY / ReadTheDocs REFERENCES.
 --->
 
 <div align="center">
@@ -59,6 +60,9 @@ Refer to our [Installation Guide](docs/installation.md) for more details.
     ```bash
     docker run --rm -v $(pwd):/music spotdl download [trackUrl]
     ```
+
+  - For Docker Compose and permission-managed Docker downloads, see
+    [the Docker section in `/docs/index.md`](docs/index.md#docker).
 
   - Build from source
 
