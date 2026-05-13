@@ -120,3 +120,23 @@ def test_search_all_returns_ordered_candidate_urls():
         "https://youtube.com/watch?v=secondary1",
         "https://youtube.com/watch?v=secondary2",
     ]
+
+
+def test_search_all_respects_verified_only_for_primary_urls():
+    downloader = Downloader.__new__(Downloader)
+    downloader.settings = {"only_verified_results": True}
+
+    provider = Mock()
+    provider.search.return_value = None
+    provider.get_results.return_value = [
+        Mock(url="https://youtube.com/watch?v=verified", verified=True),
+        Mock(url="https://youtube.com/watch?v=unverified", verified=False),
+    ]
+
+    downloader.audio_providers = [provider]
+
+    song = Song.from_missing_data(name="Test Song", artists=["Artist"])
+    results = downloader.search_all(song)
+
+    provider.search.assert_called_once_with(song, True)
+    assert results == ["https://youtube.com/watch?v=verified"]

@@ -79,3 +79,29 @@ def test_yt_get_results(mocker):
     assert results[0].url == "https://www.youtube.com/watch?v=video_0"
     assert results[0].duration == 180
     assert results[0].author == "Lost Identities"
+
+
+def test_yt_get_results_normalizes_null_metadata(mocker):
+    mocker.patch(
+        "spotdl.providers.audio.youtube.YoutubeDL.extract_info",
+        return_value={
+            "entries": [
+                {
+                    "id": "video_0",
+                    "title": "Live Stream",
+                    "duration": None,
+                    "uploader": None,
+                    "view_count": None,
+                }
+            ]
+        },
+    )
+
+    provider = YouTube()
+
+    results = provider.get_results("live stream")
+
+    assert len(results) == 1
+    assert results[0].duration == 0
+    assert results[0].author == ""
+    assert results[0].views == 0
