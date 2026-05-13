@@ -2262,15 +2262,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytube"
-version = "15.0.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d8/e7/16fec46c8d255c4bbc4b185d89c91dc92cdb802836570d8004d0db169c91/pytube-15.0.0.tar.gz", hash = "sha256:076052efe76f390dfa24b1194ff821d4e86c17d41cb5562f3a276a8bcbfc9d1d", size = 67229, upload-time = "2023-05-07T19:39:01.903Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/51/64/bcf8632ed2b7a36bbf84a0544885ffa1d0b4bcf25cc0903dba66ec5fdad9/pytube-15.0.0-py3-none-any.whl", hash = "sha256:07b9904749e213485780d7eb606e5e5b8e4341aa4dccf699160876da00e12d78", size = 57594, upload-time = "2023-05-07T19:38:59.191Z" },
-]
-
-[[package]]
 name = "pywin32-ctypes"
 version = "0.2.3"
 source = { registry = "https://pypi.org/simple" }
@@ -2570,7 +2561,7 @@ wheels = [
 
 [[package]]
 name = "spotdl"
-version = "4.4.10"
+version = "4.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4", marker = "platform_python_implementation == 'CPython'" },
@@ -2583,7 +2574,6 @@ dependencies = [
     { name = "pykakasi", marker = "platform_python_implementation == 'CPython'" },
     { name = "python-multipart", marker = "platform_python_implementation == 'CPython'" },
     { name = "python-slugify", extra = ["unidecode"], marker = "platform_python_implementation == 'CPython'" },
-    { name = "pytube", marker = "platform_python_implementation == 'CPython'" },
     { name = "rapidfuzz", marker = "platform_python_implementation == 'CPython'" },
     { name = "requests", marker = "platform_python_implementation == 'CPython'" },
     { name = "rich", marker = "platform_python_implementation == 'CPython'" },
@@ -2646,12 +2636,11 @@ requires-dist = [
     { name = "pykakasi", specifier = ">=2.3.0,<3" },
     { name = "python-multipart", specifier = ">=0.0.20" },
     { name = "python-slugify", extras = ["unidecode"], specifier = ">=8.0.4,<9" },
-    { name = "pytube", specifier = ">=15.0.0,<16" },
     { name = "rapidfuzz", specifier = ">=3.10.1,<4" },
     { name = "requests", specifier = ">=2.32.3,<3" },
     { name = "rich", specifier = ">=13.9.4,<14" },
     { name = "soundcloud-v2", specifier = ">=1.6.0,<2" },
-    { name = "spotipy", specifier = ">=2.24.0,<3" },
+    { name = "spotipy", specifier = ">=2.26.0,<3" },
     { name = "spotipyfree", specifier = ">=1.1.2,<2" },
     { name = "syncedlyrics", specifier = ">=1.0.1,<2" },
     { name = "uvicorn", specifier = ">=0.23.2,<0.24" },
