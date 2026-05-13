@@ -38,14 +38,14 @@ RUN uv sync --no-dev
 # Fix permissions for the app dir
 RUN chown -R spotdl:spotdl /app
 
+# Pre-create the output directory so named volumes inherit writable ownership.
+RUN mkdir -p /music && chown spotdl:spotdl /music
+
 # Create a volume for the output directory
 VOLUME /music
 
 # Change Workdir to download location
 WORKDIR /music
-
-# Fix permissions for music directory
-RUN chown spotdl:spotdl /music
 
 # Switch to not root user
 USER spotdl

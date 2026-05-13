@@ -60,6 +60,10 @@ Refer to our [Installation Guide](docs/installation.md) for more details.
     docker run --rm -v $(pwd):/music spotdl download [trackUrl]
     ```
 
+    If you bind-mount `$(pwd):/music`, that host directory must be writable by the container
+    `UID`/`GID`. If you want Docker to manage permissions for you, use the `docker compose`
+    named-volume flow below instead.
+
   - Using docker-compose (recommended):
 
     ```bash
