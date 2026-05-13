@@ -125,9 +125,9 @@ class Song:
             isrc=raw_track_meta.get("external_ids", {}).get("isrc"),
             song_id=raw_track_meta["id"],
             explicit=raw_track_meta["explicit"],
-            publisher=raw_album_meta["label"],
+            publisher=raw_album_meta.get("label", ""),
             url=raw_track_meta["external_urls"]["spotify"],
-            popularity=raw_track_meta["popularity"],
+            popularity=raw_track_meta.get("popularity"),
             cover_url=(
                 max(raw_album_meta["images"], key=lambda i: i["width"] * i["height"])[
                     "url"
