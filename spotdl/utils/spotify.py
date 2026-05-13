@@ -185,8 +185,11 @@ class SpotifyClient:
         if cls._instance is None:
             raise SpotifyError(
                 "Spotify client not created. Call SpotifyClient.init"
-                "(client_id, client_secret, user_auth, cache_path, no_cache, "
-                "open_browser) first."
+                "("
+                "client_id, client_secret, user_auth=False, no_cache=False, "
+                "headless=False, max_retries=3, use_cache_file=False, "
+                "use_official_api=False, auth_token=None, cache_path=None"
+                ") first."
             )
 
         return cls._instance
