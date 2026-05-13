@@ -1,6 +1,6 @@
 FROM python:3.13-alpine
 
-LABEL maintainer="xnetcat (Jakub)"
+LABEL maintainer="Silverarmor"
 
 # Allow customizing the user/group IDs
 # Default to 1000
