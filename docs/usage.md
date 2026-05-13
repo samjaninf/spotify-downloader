@@ -277,6 +277,7 @@ If you don't want the config to load automatically, change the `load_config` opt
     "no_cache": false,
     "max_retries": 3,
     "use_cache_file": false,
+    "use_official_api": false,
     "audio_providers": [
         "youtube-music"
     ],
@@ -434,6 +435,7 @@ Spotify options:
   --headless            Run in headless mode.
   --use-cache-file      Use the cache file to get metadata. It's located under C:\Users\<user>\.spotdl\.spotify_cache or ~/.spotdl/.spotify_cache under linux. It only caches tracks and
                         gets updated whenever spotDL gets metadata from Spotify. (It may provide outdated metadata use with caution)
+  --use-official-api    Use the official Spotify Web API through Spotipy instead of the default SpotipyFree client.
 
 FFmpeg options:
   --ffmpeg FFMPEG       The ffmpeg executable to use.
@@ -522,6 +524,7 @@ Misc options:
 
 Other options:
   --download-ffmpeg     Download ffmpeg to spotdl directory.
+  --download-deno       Download Deno to spotdl directory.
   --generate-config     Generate a config file. This will overwrite current config if present.
   --check-for-updates   Check for new version.
   --profile             Run in profile mode. Useful for debugging.

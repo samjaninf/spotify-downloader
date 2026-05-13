@@ -1,5 +1,7 @@
 import pytest
+from unittest.mock import Mock
 
+from spotdl.download.downloader import Downloader
 from spotdl.types.saved import SavedError
 from spotdl.types.song import Song
 from spotdl.utils.search import get_search_results, get_simple_songs, parse_query
@@ -89,3 +91,32 @@ def test_create_empty_song():
 def test_get_simple_songs():
     songs = get_simple_songs(QUERY)
     assert len(songs) > 1
+
+
+def test_search_all_returns_ordered_candidate_urls():
+    downloader = Downloader.__new__(Downloader)
+    downloader.settings = {"only_verified_results": False}
+
+    provider_one = Mock()
+    provider_one.search.return_value = "https://youtube.com/watch?v=primary"
+    provider_one.get_results.return_value = [
+        Mock(url="https://youtube.com/watch?v=primary", verified=True),
+        Mock(url="https://youtube.com/watch?v=secondary1", verified=False),
+    ]
+
+    provider_two = Mock()
+    provider_two.search.return_value = None
+    provider_two.get_results.return_value = [
+        Mock(url="https://youtube.com/watch?v=secondary2", verified=True),
+    ]
+
+    downloader.audio_providers = [provider_one, provider_two]
+
+    song = Song.from_missing_data(name="Test Song", artists=["Artist"])
+    results = downloader.search_all(song)
+
+    assert results == [
+        "https://youtube.com/watch?v=primary",
+        "https://youtube.com/watch?v=secondary1",
+        "https://youtube.com/watch?v=secondary2",
+    ]
