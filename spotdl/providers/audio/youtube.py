@@ -2,7 +2,8 @@
 YouTube module for downloading and searching songs using yt-dlp.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
+
 from yt_dlp import YoutubeDL
 
 from spotdl.providers.audio.base import AudioProvider
@@ -13,7 +14,7 @@ __all__ = ["YouTube"]
 
 class YouTube(AudioProvider):
     """
-    YouTube audio provider class using yt-dlp
+    YouTube audio provider class using yt-dlp.
     """
 
     SUPPORTS_ISRC = False
@@ -24,13 +25,6 @@ class YouTube(AudioProvider):
         Initialize the YouTube audio provider
         """
         super().__init__(*args, **kwargs)
-
-        # yt-dlp options
-        self.ydl_opts = {
-            "quiet": True,
-            "skip_download": True,
-            "extract_flat": "in_playlist",  # only get metadata, not full video
-        }
 
     def get_results(
         self, search_term: str, *_args, **_kwargs
@@ -44,34 +38,38 @@ class YouTube(AudioProvider):
         ### Returns
         - A list of YouTube results if found, None otherwise.
         """
-        results = []
+        search_opts: Dict[str, Any] = {
+            **self.audio_handler.params,
+            "extract_flat": "in_playlist",
+            "skip_download": True,
+        }
 
-        with YoutubeDL(self.ydl_opts) as ydl:
-            # Search for videos — ytsearch5 limits to top 5 results
-            search_query = f"ytsearch10:{search_term}"
-            try:
-                info = ydl.extract_info(search_query, download=False)
-            except Exception:
-                return []
+        with YoutubeDL(search_opts) as ydl:
+            info = ydl.extract_info(f"ytsearch10:{search_term}", download=False)
 
         if not info or "entries" not in info:
             return []
 
+        results = []
         for entry in info["entries"]:
             if not entry:
+                continue
+
+            video_id = entry.get("id")
+            if not video_id:
                 continue
 
             results.append(
                 Result(
                     source=self.name,
-                    url=f"https://www.youtube.com/watch?v={entry.get('id')}",
+                    url=f"https://www.youtube.com/watch?v={video_id}",
                     verified=False,
                     name=entry.get("title", ""),
                     duration=entry.get("duration", 0),
                     author=entry.get("uploader", ""),
                     search_query=search_term,
                     views=entry.get("view_count", 0),
-                    result_id=entry.get("id", ""),
+                    result_id=video_id,
                 )
             )
 
