@@ -162,11 +162,7 @@ def _init_free_spotify_client(**kwargs) -> Any:
     Initialize the default SpotipyFree client.
     """
 
-    client = FreeSpotify(**kwargs)
-    client.user_auth = (
-        True  # < Has internal login system, must be set to true to avoid errors
-    )
-    return client
+    return FreeSpotify(**kwargs)
 
 
 class SpotifyClient:
