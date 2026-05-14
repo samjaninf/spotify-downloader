@@ -424,7 +424,6 @@ class Downloader:
             if type(primary) == str:  # < sometimes returns Nonetype
                 primaries.append(primary)
             secondaries.extend(result_urls)
-        
         result: List[str] = primaries + secondaries
         if len(result) == 0:
             raise LookupError(f"No results found for song: {song.display_name}")
