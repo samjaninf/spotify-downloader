@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 
 import spotdl.utils.spotify as spotify_module
@@ -161,6 +163,7 @@ def test_init_uses_official_client_for_official_api_only_options(monkeypatch, ca
     monkeypatch.setattr(
         spotify_module, "_init_official_spotify_client", fake_official_client
     )
+    caplog.set_level(logging.INFO, logger="spotdl.utils.spotify")
 
     result = SpotifyClient.init(
         client_id="client_id",
