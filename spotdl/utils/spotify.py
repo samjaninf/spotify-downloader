@@ -162,10 +162,7 @@ def _init_free_spotify_client(**kwargs) -> Any:
     Initialize the default SpotipyFree client.
     """
 
-    if client is None:
-        client = FreeSpotify()
-
-    return client
+    return FreeSpotify(**kwargs)
 
 
 class SpotifyClient:
