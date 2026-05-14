@@ -423,7 +423,7 @@ class Downloader:
 
             if primary in result_urls:
                 result_urls.remove(primary)
-            if type(primary) == str:  # < sometimes returns Nonetype
+            if primary is not None:
                 primaries.append(primary)
             secondaries.extend(result_urls)
         result: List[str] = primaries + secondaries

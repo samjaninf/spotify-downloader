@@ -139,19 +139,28 @@ def test_init_uses_official_client_when_requested(monkeypatch):
     assert SpotifyClient._use_official_api is True
 
 
-def test_init_warns_for_official_api_only_options(monkeypatch, caplog):
+def test_init_uses_official_client_for_official_api_only_options(monkeypatch, caplog):
     """
-    Test SpotifyClient warns when official API only options are used with SpotipyFree.
+    Test SpotifyClient routes official API only options to the official client.
     """
 
     client = object()
+    calls = []
 
     def fake_free_client(**kwargs):
+        calls.append(("free", kwargs))
+        return object()
+
+    def fake_official_client(**kwargs):
+        calls.append(("official", kwargs))
         return client
 
     monkeypatch.setattr(SpotifyClient, "_instance", None)
     monkeypatch.setattr(SpotifyClient, "_use_official_api", False)
     monkeypatch.setattr(spotify_module, "_init_free_spotify_client", fake_free_client)
+    monkeypatch.setattr(
+        spotify_module, "_init_official_spotify_client", fake_official_client
+    )
 
     result = SpotifyClient.init(
         client_id="client_id",
@@ -162,8 +171,6 @@ def test_init_warns_for_official_api_only_options(monkeypatch, caplog):
     )
 
     assert result is client
-    assert (
-        "--auth-token, --user-auth, --use-cache-file are only supported by "
-        "the official Spotify Web API. Add --use-official-api to use this "
-        "functionality."
-    ) in caplog.text
+    assert calls[0][0] == "official"
+    assert SpotifyClient._use_official_api is True
+    assert "Using the official Spotify Web API because" in caplog.text
