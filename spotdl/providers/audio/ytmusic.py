@@ -115,7 +115,8 @@ class YouTubeMusic(AudioProvider):
                 return []
 
             logger.debug(
-                "YouTube Music returned no usable results for %s on attempt %s/%s, retrying with a new client",
+                "YouTube Music returned no usable results for %s on attempt %s/%s, "
+                "retrying with a new client",
                 search_term,
                 attempt + 1,
                 self.SEARCH_ATTEMPTS,
