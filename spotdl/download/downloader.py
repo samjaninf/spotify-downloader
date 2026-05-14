@@ -421,7 +421,7 @@ class Downloader:
 
             if primary in result_urls:
                 result_urls.remove(primary)
-            if (type(primary) == str):  # < sometimes returns Nonetype
+            if type(primary) == str:  # < sometimes returns Nonetype
                 primaries.append(primary)
             secondaries.extend(result_urls)
         
