@@ -426,8 +426,8 @@ class Downloader:
             if primary is not None:
                 primaries.append(primary)
             secondaries.extend(result_urls)
-
-        return primaries + secondaries
+        result: List[str] = primaries + secondaries
+        return result
 
     def search_lyrics(self, song: Song) -> Optional[str]:
         """
