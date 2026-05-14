@@ -131,7 +131,7 @@ def entry_point():
     if (
         arguments.query
         and "saved" in arguments.query
-        and not spotify_settings["user_auth"]
+        and (not spotify_settings["user_auth"] and spotify_settings["use_official_api"])
     ):
         raise SpotifyError(
             "You must be logged in to use the saved query. "
