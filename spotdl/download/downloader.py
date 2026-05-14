@@ -427,8 +427,6 @@ class Downloader:
                 primaries.append(primary)
             secondaries.extend(result_urls)
         result: List[str] = primaries + secondaries
-        if len(result) == 0:
-            raise LookupError(f"No results found for song: {song.display_name}")
         return result
 
     def search_lyrics(self, song: Song) -> Optional[str]:
