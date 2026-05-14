@@ -51,4 +51,4 @@ WORKDIR /music
 USER spotdl
 
 # Entrypoint command
-ENTRYPOINT ["uv", "run", "--project", "/app", "spotdl"]
+ENTRYPOINT ["uv", "run", "--project", "/app", "--no-dev", "--frozen", "--no-sync", "spotdl"]
