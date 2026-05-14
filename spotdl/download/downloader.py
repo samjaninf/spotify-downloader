@@ -410,7 +410,9 @@ class Downloader:
         primaries: List[str] = []
         secondaries: List[str] = []
         for audio_provider in self.audio_providers:
-            primary = audio_provider.search(song, self.settings["only_verified_results"])
+            primary = audio_provider.search(
+                song, self.settings["only_verified_results"]
+            )
             search_results = audio_provider.get_results(search_query)
             if self.settings["only_verified_results"]:
                 result_urls = [
