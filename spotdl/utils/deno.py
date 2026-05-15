@@ -55,6 +55,7 @@ DENO_TARGETS: Dict[str, Dict[str, str]] = {
     },
 }
 
+
 class DenoError(Exception):
     """
     Base class for all exceptions related to Deno.
