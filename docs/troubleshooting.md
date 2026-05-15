@@ -53,8 +53,8 @@ As common issues or questions are encountered solutions will be added to this gu
 
 ??? "AudioProviderError: YT-DLP download error"
 
-    This can happen when YouTube videos are tagged as "made for kids". yt-dlp requires Deno for
-    some of these videos.
+    This can happen when Deno is not installed. spotDL uses yt-dlp for YouTube downloads, and some
+    videos require Deno to download successfully, including videos marked as "made for kids".
 
     ### Error Message
 
