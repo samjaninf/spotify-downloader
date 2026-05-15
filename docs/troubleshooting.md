@@ -51,6 +51,26 @@ As common issues or questions are encountered solutions will be added to this gu
 
     `pip install brotli websockets yt-dlp -U`
 
+??? "AudioProviderError: YT-DLP download error"
+
+    This can happen when Deno is not installed. spotDL uses yt-dlp for YouTube downloads, and some
+    videos require Deno to download successfully, including videos marked as "made for kids".
+
+    ### Error Message
+
+    `AudioProviderError: YT-DLP download error`
+
+    ### Solution
+
+    Install Deno for spotDL:
+
+    ```bash
+    spotdl --download-deno
+    ```
+
+    If you prefer a system-wide Deno install, follow the
+    [official Deno installation guide](https://docs.deno.com/runtime/getting_started/installation/).
+
 ??? "HTTP Error 404"
 
     <https://github.com/plamere/spotipy/issues/795#issuecomment-1100321148>
