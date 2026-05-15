@@ -20,7 +20,6 @@ from yt_dlp.postprocessor.sponsorblock import SponsorBlockPP
 from spotdl.download.progress_handler import ProgressHandler
 from spotdl.providers.audio import (
     AudioProvider,
-    AudioProviderError,
     BandCamp,
     Piped,
     SoundCloud,
@@ -40,7 +39,7 @@ from spotdl.utils.config import (
     modernize_settings,
 )
 from spotdl.utils.ffmpeg import FFmpegError, convert, get_ffmpeg_path
-from spotdl.utils.formatter import create_file_name, create_song_title
+from spotdl.utils.formatter import create_file_name
 from spotdl.utils.lrc import generate_lrc
 from spotdl.utils.m3u import gen_m3u_files
 from spotdl.utils.metadata import MetadataError, embed_metadata
@@ -395,40 +394,6 @@ class Downloader:
 
         raise LookupError(f"No results found for song: {song.display_name}")
 
-    def search_all(self, song: Song) -> List[str]:
-        """
-        Search for a song and return all candidate URLs ordered by match score.
-
-        ### Arguments
-        - song: The song to search for.
-
-        ### Returns
-        - list of candidate URLs, best match first.
-        """
-
-        search_query = create_song_title(song.name, song.artists).lower()
-        primaries: List[str] = []
-        secondaries: List[str] = []
-        for audio_provider in self.audio_providers:
-            primary = audio_provider.search(
-                song, self.settings["only_verified_results"]
-            )
-            search_results = audio_provider.get_results(search_query)
-            if self.settings["only_verified_results"]:
-                result_urls = [
-                    result.url for result in search_results if result.verified
-                ]
-            else:
-                result_urls = [result.url for result in search_results]
-
-            if primary in result_urls:
-                result_urls.remove(primary)
-            if primary is not None:
-                primaries.append(primary)
-            secondaries.extend(result_urls)
-        result: List[str] = primaries + secondaries
-        return result
-
     def search_lyrics(self, song: Song) -> Optional[str]:
         """
         Search for lyrics using all available providers.
@@ -709,36 +674,21 @@ class Downloader:
                 display_progress_tracker.yt_dlp_progress_hook
             )
 
-            # Try the best URL first, then fall back to other candidates if yt-dlp fails
-
-            download_info = None
-            candidate_url = None
             if song.download_url is None:
-                candidate_urls = self.search_all(song)
+                download_url = self.search(song)
             else:
-                candidate_urls = [song.download_url]
+                download_url = song.download_url
 
-            for candidate_url in candidate_urls:
-                try:
-                    logger.debug(
-                        "Downloading %s using %s", song.display_name, candidate_url
-                    )
-                    download_info = audio_downloader.get_download_metadata(
-                        candidate_url, download=True
-                    )
-                    break
-                except AudioProviderError as exc:
-                    logger.info(
-                        "yt-dlp failed for %s, trying next URL. Error: %s",
-                        candidate_url,
-                        exc,
-                    )
+            logger.debug("Downloading %s using %s", song.display_name, download_url)
+            download_info = audio_downloader.get_download_metadata(
+                download_url, download=True
+            )
 
             if download_info is None:
                 logger.debug(
                     "No download info found for %s, url: %s",
                     song.display_name,
-                    candidate_url,
+                    download_url,
                 )
 
                 raise DownloaderError(
@@ -840,7 +790,7 @@ class Downloader:
 
             # Set the song's download url
             if song.download_url is None:
-                song.download_url = candidate_url
+                song.download_url = download_url
 
             display_progress_tracker.notify_conversion_complete()
 
