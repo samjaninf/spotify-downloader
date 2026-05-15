@@ -55,9 +55,6 @@ DENO_TARGETS: Dict[str, Dict[str, str]] = {
     },
 }
 
-DENO_WARNING_SHOWN = False
-
-
 class DenoError(Exception):
     """
     Base class for all exceptions related to Deno.
@@ -136,18 +133,16 @@ def get_local_deno_yt_dlp_options() -> Dict[str, Dict[str, Dict[str, str]]]:
 
 def warn_if_deno_missing() -> None:
     """
-    Warn once if Deno is unavailable for yt-dlp downloads.
+    Warn if Deno is unavailable for yt-dlp downloads.
     """
 
-    global DENO_WARNING_SHOWN  # pylint: disable=global-statement
-    if DENO_WARNING_SHOWN or is_deno_installed():
+    if is_deno_installed():
         return
 
     logger.warning(
         "Some YouTube downloads require Deno. Run spotdl --download-deno "
         "or install Deno system-wide."
     )
-    DENO_WARNING_SHOWN = True
 
 
 def download_deno() -> Path:
