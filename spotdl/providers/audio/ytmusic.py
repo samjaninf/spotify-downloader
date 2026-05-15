@@ -49,12 +49,15 @@ class YouTubeMusic(AudioProvider):
 
         return YTMusic(language="de")
 
-    def get_results(self, search_term: str, **kwargs) -> List[Result]:
+    def get_results(
+        self, search_term: str, log_search_failures: bool = True, **kwargs
+    ) -> List[Result]:
         """
         Get results from YouTube Music API and simplify them
 
         ### Arguments
         - search_term: The search term to search for.
+        - log_search_failures: Whether to log when a search returns no usable results.
         - kwargs: other keyword arguments passed to the `YTMusic.search` method.
 
         ### Returns
@@ -107,6 +110,9 @@ class YouTubeMusic(AudioProvider):
                 return results
 
             if attempt == self.SEARCH_ATTEMPTS - 1:
+                if not log_search_failures:
+                    return []
+
                 logger.info(
                     "YouTube Music returned no usable results for %s after %s attempts",
                     search_term,
@@ -114,13 +120,14 @@ class YouTubeMusic(AudioProvider):
                 )
                 return []
 
-            logger.debug(
-                "YouTube Music returned no usable results for %s on attempt %s/%s, "
-                "retrying with a new client",
-                search_term,
-                attempt + 1,
-                self.SEARCH_ATTEMPTS,
-            )
+            if log_search_failures:
+                logger.debug(
+                    "YouTube Music returned no usable results for %s on attempt %s/%s, "
+                    "retrying with a new client",
+                    search_term,
+                    attempt + 1,
+                    self.SEARCH_ATTEMPTS,
+                )
             self.client = self._create_client()
 
         return []
