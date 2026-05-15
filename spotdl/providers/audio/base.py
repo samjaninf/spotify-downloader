@@ -12,7 +12,7 @@ from yt_dlp import YoutubeDL
 from spotdl.types.result import Result
 from spotdl.types.song import Song
 from spotdl.utils.config import get_temp_path
-from spotdl.utils.deno import get_local_deno_yt_dlp_options
+from spotdl.utils.deno import get_local_deno_yt_dlp_options, warn_if_deno_missing
 from spotdl.utils.formatter import (
     args_to_ytdlp_options,
     create_search_query,
@@ -396,6 +396,9 @@ class AudioProvider:
             if data:
                 return data
         except Exception as exception:
+            if download:
+                warn_if_deno_missing()
+
             logger.debug(exception)
             raise AudioProviderError(f"YT-DLP download error - {url}") from exception
 

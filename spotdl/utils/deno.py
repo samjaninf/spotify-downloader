@@ -2,6 +2,7 @@
 Module for checking for a Deno binary, finding a local one, and downloading it.
 """
 
+import logging
 import os
 import platform
 import shutil
@@ -15,6 +16,8 @@ import requests
 
 from spotdl.utils.config import get_spotdl_path
 
+logger = logging.getLogger(__name__)
+
 __all__ = [
     "DENO_RELEASE_LATEST_URL",
     "DENO_RELEASE_URL",
@@ -24,6 +27,7 @@ __all__ = [
     "get_deno_path",
     "get_local_deno",
     "get_local_deno_yt_dlp_options",
+    "warn_if_deno_missing",
     "download_deno",
 ]
 
@@ -50,6 +54,8 @@ DENO_TARGETS: Dict[str, Dict[str, str]] = {
         "aarch64": "aarch64-apple-darwin",
     },
 }
+
+DENO_WARNING_SHOWN = False
 
 
 class DenoError(Exception):
@@ -126,6 +132,22 @@ def get_local_deno_yt_dlp_options() -> Dict[str, Dict[str, Dict[str, str]]]:
         return {}
 
     return {"js_runtimes": {"deno": {"path": str(local_deno.absolute())}}}
+
+
+def warn_if_deno_missing() -> None:
+    """
+    Warn once if Deno is unavailable for yt-dlp downloads.
+    """
+
+    global DENO_WARNING_SHOWN  # pylint: disable=global-statement
+    if DENO_WARNING_SHOWN or is_deno_installed():
+        return
+
+    logger.warning(
+        "Some YouTube downloads require Deno. Run spotdl --download-deno "
+        "or install Deno system-wide."
+    )
+    DENO_WARNING_SHOWN = True
 
 
 def download_deno() -> Path:
